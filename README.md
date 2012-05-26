@@ -1,0 +1,4 @@
+CustomEventsJS
+==============
+
+JavaScript Observer pattern 
