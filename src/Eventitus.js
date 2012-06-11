@@ -1,4 +1,4 @@
-Eventus = {
+Eventitus = {
 	
 	events: {},
 
@@ -41,8 +41,8 @@ Eventus = {
 				}
 			} catch (e) {
 				throw {
-					name: "CallbackError",
-					message: "Cannot call null callback"
+					name: "CallBackError",
+					message: "Cannot call null callBack"
 				}
 			}
 			
