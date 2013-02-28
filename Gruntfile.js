@@ -50,16 +50,16 @@ module.exports = function( grunt ) {
 						no_mangle: false
 					},
 					baseUrl: "./src",
+					// ship with almond to remove need for requirejs
 					name: 'vendor/almond',
-					include: ['mediator', 'events', 'utils'],
+					include: ['<%= pkg.main %>'],
 					wrap: {
 						start: "(function(global, define) {\n"+
 						// check for amd loader on global namespace
 						"  var globalDefine = global.define;\n",
 
-						// require the first item in the includes array as the library
-						// TODO - replzce this with a main.js script to load all dependencies.
-						end:   "  var library = require(<%= requirejs.compile.options.include[0] %>);\n"+
+						// main 'require's all library dependencies
+						end:   "  var library = require(<%= pkg.main %>);\n"+
 						"  if(typeof module !== 'undefined' && module.exports) {\n"+
 						// export library for node
 						"    module.exports = library;\n"+

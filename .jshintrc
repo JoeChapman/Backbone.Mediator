@@ -1,0 +1,28 @@
+{
+  "globals": {
+    "jasmine": true,
+    "describe": true,
+    "it": true,
+    "expect": true,
+    "beforeEach": true,
+    "afterEach": true,
+    "define": true,
+    "spyOn": true,
+    "runs": true,
+    "waitsFor": true,
+    "document": true
+  },
+  "curly": false,
+  "eqeqeq": false,
+  "immed": true,
+  "latedef": true,
+  "newcap": true,
+  "noarg": true,
+  "sub": true,
+  "undef": true,
+  "boss": true,
+  "eqnull": true,
+  "node": true,
+  "strict": false,
+  "es5": false
+}
