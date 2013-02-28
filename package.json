@@ -37,6 +37,6 @@
     "grunt-contrib-concat": "~0.1.1"
   },
   "scripts": {
-    "test": "grunt jasmine"
+    "test": "grunt test"
   }
 }
