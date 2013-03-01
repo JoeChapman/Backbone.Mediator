@@ -1,4 +1,4 @@
-HereThereEverywhereJS
+<h1>HereThereEverywhereJS</h1> [![Build Status](https://travis-ci.org/JoeChapman/HereThereEverywhereJS.png)](https://travis-ci.org/JoeChapman/HereThereEverywhereJS)
 ==============
 
 <small>Cute title, eh?!</small>
