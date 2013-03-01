@@ -4,10 +4,6 @@ define( function ( require, exports, module ) {
 	var events = require('events');
 	var mediator = require('mediator');
 
-	return {
-		events: events,
-		utils: utils,
-		mediator: mediator
-	};
+	return utils.mixin( mediator, events );
 
 });

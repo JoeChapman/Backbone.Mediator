@@ -66,6 +66,6 @@ event)},this)}else i.bind()},unregister:function(e){if(!e)throw{name:"NoArgument
 };r.each(e.target,function(e){this.remove(e.subscriber,e.event)},this);if(!e.source)throw{name:"ConfigSourceNotDefined"
 ,message:"Config object needs a source defined."};r.each(e.source,function(e){this.from(e.subscriber,
 e.eventName)},this)}}};return u}),t("main",["require","exports","module","utils","events","mediator"]
-,function(e,t,n){var r=e("utils"),i=e("events"),s=e("mediator");return{events:i,utils:r,mediator:s}})
-;var s=i(main);typeof module!="undefined"&&module.exports?module.exports=s:n?function(e){e(function()
-{return s})}(n):e[HereThereEveryWhereJS]=s})(this);
+,function(e,t,n){var r=e("utils"),i=e("events"),s=e("mediator");return r.mixin(s,i)});var s=i(main);typeof 
+module!="undefined"&&module.exports?module.exports=s:n?function(e){e(function(){return s})}(n):e[HereThereEveryWhereJS
+]=s})(this);
