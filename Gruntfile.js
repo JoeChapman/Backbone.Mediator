@@ -71,7 +71,7 @@ module.exports = function( grunt ) {
 						"    }(globalDefine));\n"+
 						"  } else {\n"+
 						// define the library as the project name on the global namespace for inline script loading
-						"    global[ <%= pkg.name %> ] = library;\n"+
+						"    global[ '<%= pkg.name %>' ] = library;\n"+
 						"  }\n"+
 						"}(this));\n"
 					},
@@ -102,7 +102,7 @@ module.exports = function( grunt ) {
 						"    }(globalDefine));\n"+
 						"  } else {\n"+
 						// define the library as the project name on the global namespace for inline script loading
-						"    global[ <%= pkg.name %> ] = library;\n"+
+						"    global[ '<%= pkg.name %>' ] = library;\n"+
 						"  }\n"+
 						"}(this));\n"
 					},

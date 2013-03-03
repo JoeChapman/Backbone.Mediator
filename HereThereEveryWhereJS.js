@@ -957,6 +957,6 @@ define('main',['require','exports','module','utils','events','mediator'], functi
       define(function () { return library; });
     }(globalDefine));
   } else {
-    global[ HereThereEveryWhereJS ] = library;
+    global[ 'HereThereEverywhereJS' ] = library;
   }
 }(this));

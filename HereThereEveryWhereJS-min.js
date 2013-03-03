@@ -69,4 +69,4 @@ e){this.removing=!0;if(!e.target)throw{name:"ConfigTargetNotDefined",message:"Co
 e.eventName)},this)}}};return u}),t("main",["require","exports","module","utils","events","mediator"]
 ,function(e,t,n){var r=e("utils"),i=e("events"),s=e("mediator");return r.mixin(s,i)});var s=i("main")
 ;typeof module!="undefined"&&module.exports?module.exports=s:n?function(e){e(function(){return s})}(n
-):e[HereThereEveryWhereJS]=s})(this);
+):e.HereThereEverywhereJS=s})(this);
