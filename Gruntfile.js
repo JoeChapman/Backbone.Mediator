@@ -81,6 +81,7 @@ module.exports = function( grunt ) {
 			concat: {
 				options: {
 					optimize: "none",
+					beautify: true,
 					baseUrl: "./src",
 					// ship with almond to remove need for requirejs
 					name: 'vendor/almond',
@@ -92,18 +93,26 @@ module.exports = function( grunt ) {
 
 						// main 'require's all library dependencies
 						end:   "  var library = require('<%= pkg.main %>');\n"+
+						
 						"  if(typeof module !== 'undefined' && module.exports) {\n"+
-						// export library for node
+									// export library for node
 						"    module.exports = library;\n"+
+
 						"  } else if(globalDefine) {\n"+
+
 						// define library for global amd loader that is already present
 						"    (function (define) {\n"+
+
 						"      define(function () { return library; });\n"+
-						"    }(globalDefine));\n"+
+						
+						"    } (globalDefine));\n"+
+
 						"  } else {\n"+
-						// define the library as the project name on the global namespace for inline script loading
+								// define the library as the project name on the global namespace for inline script loading
 						"    global[ '<%= pkg.name %>' ] = library;\n"+
+
 						"  }\n"+
+
 						"}(this));\n"
 					},
 					out: '<%= pkg.name %>.js'
