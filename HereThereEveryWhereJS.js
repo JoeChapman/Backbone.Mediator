@@ -586,13 +586,13 @@ define('events',['require','exports','module'], function ( require, exports, mod
 
 		},
 
-		fire: function ( event ) {
+		trigger: function ( event ) {
 
 			var ev, len, opt, data, ctx;
 
 			// event argument is mandatory
 			if ( "string" != typeof event ) {
-				throw new Error("fire() needs an event");
+				throw new Error("trigger() needs an event");
 			}
 
 			// Optional arguments
@@ -670,7 +670,7 @@ define('mediator',['require','exports','module','utils'], function ( require, ex
 								utils.each( pass.to, function ( to ) {
 
 									// The callback binds the |to| event
-									to.obj.fire( to.eventName, args);
+									to.obj.trigger( to.eventName, args);
 
 								}, this);
 
@@ -949,7 +949,7 @@ define('main',['require','exports','module','utils','events','mediator'], functi
 
 	return utils.mixin( mediator, events );
 
-});  var library = require(main);
+});  var library = require('main');
   if(typeof module !== 'undefined' && module.exports) {
     module.exports = library;
   } else if(globalDefine) {

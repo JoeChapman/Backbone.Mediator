@@ -41,7 +41,7 @@ define( function ( require, exports, module ) {
 								utils.each( pass.to, function ( to ) {
 
 									// The callback binds the |to| event
-									to.obj.fire( to.eventName, args);
+									to.obj.trigger( to.eventName, args);
 
 								}, this);
 

@@ -26,33 +26,21 @@ module.exports = function( grunt ) {
 		},
 
 		jasmine : {
-			src : ['mediator', 'events', 'utils'],
-			options : {
-				specs : '<%= meta.spec %>',
-				// host : 'http://127.0.0.1:8000',
-				template: require('grunt-template-jasmine-requirejs'),
-				templateOptions: {
-					requireConfig: {
-						baseUrl: './src'
+			customTask: {
+				src : ['mediator', 'events', 'utils'],
+				options : {
+					specs : '<%= meta.spec %>',
+					template: require('grunt-template-jasmine-requirejs'),
+					templateOptions: {
+						requireConfig: {
+							baseUrl: './src'
+						}
 					}
 				}
 			}
 		},
 
-		concat: {
-			options: {
-				stripBanners: true,
-				separator: ';'
-			},
-			dist: {
-				src: '<%= meta.src %>',
-				dest: '<%= pkg.name %>-concat.js'
-			}
-		},
-
 		requirejs: {
-			// Compile is the custom name of this operation 
-			// and NOT an r.js specific task name.
 			compile: {
 				options: {
 					uglify: {
@@ -72,7 +60,7 @@ module.exports = function( grunt ) {
 						"  var globalDefine = global.define;\n",
 
 						// main 'require's all library dependencies
-						end:   "  var library = require(<%= pkg.main %>);\n"+
+						end:   "  var library = require('<%= pkg.main %>');\n"+
 						"  if(typeof module !== 'undefined' && module.exports) {\n"+
 						// export library for node
 						"    module.exports = library;\n"+
@@ -103,7 +91,7 @@ module.exports = function( grunt ) {
 						"  var globalDefine = global.define;\n",
 
 						// main 'require's all library dependencies
-						end:   "  var library = require(<%= pkg.main %>);\n"+
+						end:   "  var library = require('<%= pkg.main %>');\n"+
 						"  if(typeof module !== 'undefined' && module.exports) {\n"+
 						// export library for node
 						"    module.exports = library;\n"+
@@ -139,14 +127,12 @@ module.exports = function( grunt ) {
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 
 	// Custom tasks
 	grunt.registerTask('lint', ['jshint']);
 	grunt.registerTask('test', ['jasmine']);
 	grunt.registerTask('build', ['requirejs']);
-	grunt.registerTask('concatenate', ['concat']);
 	grunt.registerTask('default', ['lint', 'test', 'build']);
 
 };

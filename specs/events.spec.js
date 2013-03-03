@@ -41,10 +41,10 @@ require ( ['events'] , function ( events ) {
 				events.reset();
 			});
 
-			describe("When fire is invoked with 'eventName", function () {
+			describe("When trigger is invoked with 'eventName", function () {
 
 				beforeEach(function () {
-					events.fire("eventName");
+					events.trigger("eventName");
 				});
 
 				it("Should call the function", function () {
@@ -53,10 +53,10 @@ require ( ['events'] , function ( events ) {
 
 			});
 
-			describe("When fire is invoked with 'eventName' and 'hello'", function () {
+			describe("When trigger is invoked with 'eventName' and 'hello'", function () {
 
 				beforeEach(function () {
-					events.fire("eventName", "hello");
+					events.trigger("eventName", "hello");
 				});
 
 				it("Should call the function with 'hello'", function () {
@@ -71,10 +71,10 @@ require ( ['events'] , function ( events ) {
 					events.off("eventName");
 				});
 
-				describe("When fire is invoked with 'eventName'", function () {
+				describe("When trigger is invoked with 'eventName'", function () {
 
 					beforeEach(function () {
-						events.fire("eventName");
+						events.trigger("eventName");
 					});
 
 					it("Should NOT call the function", function () {
@@ -91,10 +91,10 @@ require ( ['events'] , function ( events ) {
 					events.reset();
 				});
 
-				describe("When fire is invoked with 'eventName'", function () {
+				describe("When trigger is invoked with 'eventName'", function () {
 
 					beforeEach(function () {
-						events.fire("eventName");
+						events.trigger("eventName");
 					});
 
 					it("Should NOT call the function", function () {
@@ -124,10 +124,10 @@ require ( ['events'] , function ( events ) {
 				events.reset();
 			});
 
-			describe("When fire is invoked with 'eventName", function () {
+			describe("When trigger is invoked with 'eventName", function () {
 
 				beforeEach(function () {
-					events.fire("eventName");
+					events.trigger("eventName");
 				});
 
 				it("Should invoke the function as a method of the context", function () {
@@ -136,13 +136,13 @@ require ( ['events'] , function ( events ) {
 
 			});
 
-			describe("When fire is invoked with 'eventName' and data and a context", function () {
+			describe("When trigger is invoked with 'eventName' and data and a context", function () {
 
 				var data = {}, 
 					context = { name: "radical" };
 
 				beforeEach(function () {
-					events.fire("eventName", data, context);
+					events.trigger("eventName", data, context);
 				});
 
 				it("Should invoke the function as a method of the context", function () {
@@ -168,10 +168,10 @@ require ( ['events'] , function ( events ) {
 				events.reset();
 			});
 
-			describe("When fire is invoked with 'eventName", function () {
+			describe("When trigger is invoked with 'eventName", function () {
 
 				beforeEach(function () {
-					events.fire("eventName");
+					events.trigger("eventName");
 				});
 
 				it("Should invoke the first function", function () {
@@ -221,7 +221,7 @@ require ( ['events'] , function ( events ) {
 					events.off("eventName");
 				});
 
-				describe("When fire is invoked with 'eventName'", function () {
+				describe("When trigger is invoked with 'eventName'", function () {
 
 					it("Should NOT invoke the first callback", function () {
 
@@ -230,7 +230,7 @@ require ( ['events'] , function ( events ) {
 						}, 1000);
 
 						runs(function () {
-							events.fire("eventName");
+							events.trigger("eventName");
 							expect(spyFunction1).not.toHaveBeenCalled();
 						});
 
@@ -243,7 +243,7 @@ require ( ['events'] , function ( events ) {
 						}, 1000);
 
 						runs(function () {
-							events.fire("eventName");
+							events.trigger("eventName");
 							expect(spyFunction2).not.toHaveBeenCalled();
 						});
 					});
@@ -258,18 +258,18 @@ require ( ['events'] , function ( events ) {
 					events.off("eventName", spyFunction2);
 				});
 
-				describe("When fire is invoked with 'eventName'", function () {
+				describe("When trigger is invoked with 'eventName'", function () {
 
 					it("Should invoke the first callback", function () {
 
-						events.fire("eventName");
+						events.trigger("eventName");
 						expect(spyFunction1).toHaveBeenCalled();
 
 					});
 
 					it("Should NOT invoke the second callback", function () {
 
-						events.fire("eventName");
+						events.trigger("eventName");
 						expect(spyFunction2).not.toHaveBeenCalled();
 
 					});
@@ -280,15 +280,15 @@ require ( ['events'] , function ( events ) {
 
 		});
 
-		describe("When fire is invoked without an event", function () {
+		describe("When trigger is invoked without an event", function () {
 
-			it("Should throw 'fire() needs and event", function () {
+			it("Should throw 'trigger() needs and event", function () {
 
 				expect(function () {
 
-					events.fire();
+					events.trigger();
 
-				}).toThrow("fire() needs an event");
+				}).toThrow("trigger() needs an event");
 
 			});
 

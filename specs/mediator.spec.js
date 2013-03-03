@@ -23,21 +23,21 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
         });
 
-        describe("When 'event:source' is fired on the source object", function () {
+        describe("When 'event:source' is triggerd on the source object", function () {
 
-          var spyTargetFire;
+          var spyTargettrigger;
 
           beforeEach(function () {
-            spyTargetFire = spyOn( target, "fire" ).andCallThrough();
-            source.fire("event:source", data );
+            spyTargettrigger = spyOn( target, "trigger" ).andCallThrough();
+            source.trigger("event:source", data );
           });
 
-          it("Should fired 'event:target' event on the target object", function() {
-           expect(spyTargetFire).toHaveBeenCalledWith("event:target", data);
+          it("Should triggerd 'event:target' event on the target object", function() {
+           expect(spyTargettrigger).toHaveBeenCalledWith("event:target", data);
           });
 
-          it("Should ONLY fire the event once", function () {
-            expect(spyTargetFire.callCount).toEqual(1);
+          it("Should ONLY trigger the event once", function () {
+            expect(spyTargettrigger.callCount).toEqual(1);
           });
 
         });
@@ -61,33 +61,33 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
         });
 
-        describe("When 'event:source' is fired on the source object", function () {
+        describe("When 'event:source' is triggerd on the source object", function () {
 
-          var spyTarget1Fire, spyTarget2Fire;
+          var spyTarget1trigger, spyTarget2trigger;
 
           beforeEach(function () {
 
-            spyTarget1Fire = spyOn( target1, "fire").andCallThrough();
-            spyTarget2Fire = spyOn( target2, "fire").andCallThrough();
+            spyTarget1trigger = spyOn( target1, "trigger").andCallThrough();
+            spyTarget2trigger = spyOn( target2, "trigger").andCallThrough();
 
-            source.fire("event:source", data);
+            source.trigger("event:source", data);
 
           });
 
-          it("Should fire 'event:target' on the first target object", function() {
-            expect(spyTarget1Fire).toHaveBeenCalledWith("event:target", data);
+          it("Should trigger 'event:target' on the first target object", function() {
+            expect(spyTarget1trigger).toHaveBeenCalledWith("event:target", data);
           });
 
-          it("Should ONLY fire the event on the first target ONCE", function () {
-            expect(spyTarget1Fire.callCount).toEqual(1);
+          it("Should ONLY trigger the event on the first target ONCE", function () {
+            expect(spyTarget1trigger.callCount).toEqual(1);
           });
 
-          it("Should fire 'event:target' on the second target object", function() {
-            expect(spyTarget2Fire).toHaveBeenCalledWith("event:target", data);
+          it("Should trigger 'event:target' on the second target object", function() {
+            expect(spyTarget2trigger).toHaveBeenCalledWith("event:target", data);
           });
 
-          it("Should ONLY fire the event on the second target ONCE", function () {
-            expect(spyTarget2Fire.callCount).toEqual(1);
+          it("Should ONLY trigger the event on the second target ONCE", function () {
+            expect(spyTarget2trigger.callCount).toEqual(1);
           });
 
         });
@@ -118,29 +118,29 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
           });
 
-          describe("When 'event:source' is fired on the source object", function () {
+          describe("When 'event:source' is triggerd on the source object", function () {
 
-            var spyTarget1Fire, spyTarget2Fire;
+            var spyTarget1trigger, spyTarget2trigger;
 
             beforeEach(function () {
 
-              spyTarget1Fire = spyOn( target1, "fire").andCallThrough();
-              spyTarget2Fire = spyOn( target2, "fire").andCallThrough();
+              spyTarget1trigger = spyOn( target1, "trigger").andCallThrough();
+              spyTarget2trigger = spyOn( target2, "trigger").andCallThrough();
 
-              source.fire("event:source", data );
+              source.trigger("event:source", data );
 
             });
 
-            it("Should NOT fire 'event:target' on the first target object", function() {
-              expect(spyTarget1Fire).not.toHaveBeenCalledWith("event:target", data);
+            it("Should NOT trigger 'event:target' on the first target object", function() {
+              expect(spyTarget1trigger).not.toHaveBeenCalledWith("event:target", data);
             });
 
-            it("Should fire 'event:target' on the second target object", function() {
-              expect(spyTarget2Fire).toHaveBeenCalledWith("event:target", data);
+            it("Should trigger 'event:target' on the second target object", function() {
+              expect(spyTarget2trigger).toHaveBeenCalledWith("event:target", data);
             });
 
-            it("Should ONLY fire the event on the second target ONCE", function () {
-              expect(spyTarget2Fire.callCount).toEqual(1);
+            it("Should ONLY trigger the event on the second target ONCE", function () {
+              expect(spyTarget2trigger.callCount).toEqual(1);
             });
 
           });
@@ -173,24 +173,24 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
           });
 
-          describe("When 'event:source' is fired on the source object", function () {
+          describe("When 'event:source' is triggerd on the source object", function () {
 
-            var spyTarget1Fire;
+            var spyTarget1trigger;
 
             beforeEach(function () {
 
-              spyTarget1Fire = spyOn( target1, "fire").andCallThrough();
+              spyTarget1trigger = spyOn( target1, "trigger").andCallThrough();
 
-              source.fire("event:source", data );
+              source.trigger("event:source", data );
 
             });
 
-            it("Should NOT fire 'event:target' on the first target object", function() {
-              expect(spyTarget1Fire).not.toHaveBeenCalledWith("event:target", data);
+            it("Should NOT trigger 'event:target' on the first target object", function() {
+              expect(spyTarget1trigger).not.toHaveBeenCalledWith("event:target", data);
             });
 
-            it("Should NOT fire 'event:other' on the first target object", function() {
-              expect(spyTarget1Fire).not.toHaveBeenCalledWith("event:other", data);
+            it("Should NOT trigger 'event:other' on the first target object", function() {
+              expect(spyTarget1trigger).not.toHaveBeenCalledWith("event:other", data);
             });
 
           });
@@ -222,24 +222,24 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
           });
 
-          describe("When 'event:source' is fired on the source object", function () {
+          describe("When 'event:source' is triggerd on the source object", function () {
 
-            var spyTarget1Fire; 
+            var spyTarget1trigger; 
 
             beforeEach(function () {
 
-              spyTarget1Fire = spyOn( target1, "fire").andCallThrough();
+              spyTarget1trigger = spyOn( target1, "trigger").andCallThrough();
 
-              source.fire("event:source", data );
+              source.trigger("event:source", data );
 
             });
 
-            it("Should fire 'event:target' on the first target object", function() {
-              expect(spyTarget1Fire).toHaveBeenCalledWith("event:target", data);
+            it("Should trigger 'event:target' on the first target object", function() {
+              expect(spyTarget1trigger).toHaveBeenCalledWith("event:target", data);
             });
 
-            it("Should NOT fire 'event:other' on the first target object", function() {
-              expect(spyTarget1Fire).not.toHaveBeenCalledWith("event:other", data);
+            it("Should NOT trigger 'event:other' on the first target object", function() {
+              expect(spyTarget1trigger).not.toHaveBeenCalledWith("event:other", data);
             });
 
           });

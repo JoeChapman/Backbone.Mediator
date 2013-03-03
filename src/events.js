@@ -77,13 +77,13 @@ define( function ( require, exports, module ) {
 
 		},
 
-		fire: function ( event ) {
+		trigger: function ( event ) {
 
 			var ev, len, opt, data, ctx;
 
 			// event argument is mandatory
 			if ( "string" != typeof event ) {
-				throw new Error("fire() needs an event");
+				throw new Error("trigger() needs an event");
 			}
 
 			// Optional arguments

@@ -9,16 +9,14 @@
 
 <p>Get ready to have your socks blown off!</p>
 
-<p>No really, sometimes when yuor building a big app it's easy to lose track of your events, before you know it you're in event hell!</p>
+<p>No really, sometimes when you're building a big app it's easy to lose track of your events, before you know it you're in event hell!</p>
 
 <p>Well, with this piffy little library, you can declare all your events in one place, perhaps in your glue code, a bootstrap script or anywhere you fancy.</p>
 
 <p>Simply tell it what object you expect to trigger what event and which object should respond with what event.</p>
 
 <pre>
-	<code>
-		mediator.from(mockSource, 'eventName').to(mockTarget, 'eventName');
-	</code>
+	<code>mediator.from(mockSource, 'eventName').to(mockTarget, 'eventName');</code>
 </pre>
 
 <h2>Contribute</h2>

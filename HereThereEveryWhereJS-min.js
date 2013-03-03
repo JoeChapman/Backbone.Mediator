@@ -42,30 +42,31 @@ e)throw new Error("on() needs an event name string");if("function"!=typeof t)thr
 );n=[].slice.call(arguments,2)[0],this.list[e]||(this.list[e]=[]),this.list[e].push({callback:t,context
 :n})},reset:function(){this.list={}},off:function(e){var t,n,r;if("string"!=typeof e)throw new Error("off() needs an event"
 );r=[].slice.call(arguments,1)[0];if(this.list[e]){t=this.list[e],n=t.length;while(n--)"function"!=typeof 
-r?t.splice(n,1):t[n].callback===r&&(t[n].callback=null,delete t[n].callback)}},fire:function(e){var t
-,n,r,i,s;if("string"!=typeof e)throw new Error("fire() needs an event");r=[].slice.call(arguments,1),
-i=r[0],s=r[1];if(this.list[e]){n=this.list[e].length;while(t=this.list[e][--n])"function"==typeof t.callback&&
-t.callback.call(s||t.context||this,i)}}};return r}),t("mediator",["require","exports","module","utils"
-],function(e,t,n){var r=e("utils"),i={add:function(t,n,r){s[o][t].push({obj:n,eventName:r})},bind:function(
-){r.each(s[o],function(e,t,n){r.each(n,function(e,t,n){r.each(n.from,function(e){e.obj.off(e.eventName
-),e.obj.on(e.eventName,function(e){r.each(n.to,function(t){t.obj.fire(t.eventName,e)},this)},this)},this
-)},this)},this)}},s={},o=null,u={from:function(e,t){if(!arguments.length)throw{name:"NoArgumentsException"
-,message:"From cannot be called with no arguments"};return o=t||"all",s[o]||(s[o]={}),s[o].from||(s[o
-].from=[]),i.add("from",e,t),this.removing&&(r.each(s,function(e,t){r.each(e.to,function(n,r){e.to[r]
-.remove&&e.to[r].remove===!0&&(delete s[t].to[r],o=null)},this)},this),this.removing=!1),this},to:function(
-e,t){if(!o)throw{name:"ToFunctionBadUsage",message:"Cannot call to before from."};return s[o].to||(s[
-o].to=[]),i.add("to",e,t),this.register(),this},remove:function(e,t){if(!arguments.length)throw{name:"NoArgumentException"
-,message:"Remove cannot be called without arguments"};return this.removing=!0,r.each(s,function(n){r.
-each(n.to,function(i,s){typeof e=="string"?(t=e,i.eventName===t&&[].splice.call(n.to,s,1)):(r.isEqual
-(i.obj,e)||e==null)&&(i.eventName===t||typeof t=="undefined")&&(i.remove=!0)})}),this},register:function(
-){var e=arguments[0];if(e){if(!e.source)throw{name:"ConfigSourceNotDefined",message:"Config object needs a source defined."
-};r.each(e.source,function(e){this.from(e.subscriber,e.event)},this);if(!e.target)throw{name:"ConfigTargetNotDefined"
-,message:"Config object needs a target defined."};r.each(e.target,function(e){this.to(e.subscriber,e.
-event)},this)}else i.bind()},unregister:function(e){if(!e)throw{name:"NoArgumentException",message:"Unregister cannot be called without arguments"
-};if(e){this.removing=!0;if(!e.target)throw{name:"ConfigTargetNotDefined",message:"Config object needs a target defined."
+r?t.splice(n,1):t[n].callback===r&&(t[n].callback=null,delete t[n].callback)}},trigger:function(e){var t
+,n,r,i,s;if("string"!=typeof e)throw new Error("trigger() needs an event");r=[].slice.call(arguments,1
+),i=r[0],s=r[1];if(this.list[e]){n=this.list[e].length;while(t=this.list[e][--n])"function"==typeof t
+.callback&&t.callback.call(s||t.context||this,i)}}};return r}),t("mediator",["require","exports","module"
+,"utils"],function(e,t,n){var r=e("utils"),i={add:function(t,n,r){s[o][t].push({obj:n,eventName:r})},
+bind:function(){r.each(s[o],function(e,t,n){r.each(n,function(e,t,n){r.each(n.from,function(e){e.obj.
+off(e.eventName),e.obj.on(e.eventName,function(e){r.each(n.to,function(t){t.obj.trigger(t.eventName,e
+)},this)},this)},this)},this)},this)}},s={},o=null,u={from:function(e,t){if(!arguments.length)throw{name
+:"NoArgumentsException",message:"From cannot be called with no arguments"};return o=t||"all",s[o]||(s
+[o]={}),s[o].from||(s[o].from=[]),i.add("from",e,t),this.removing&&(r.each(s,function(e,t){r.each(e.to
+,function(n,r){e.to[r].remove&&e.to[r].remove===!0&&(delete s[t].to[r],o=null)},this)},this),this.removing=!1
+),this},to:function(e,t){if(!o)throw{name:"ToFunctionBadUsage",message:"Cannot call to before from."}
+;return s[o].to||(s[o].to=[]),i.add("to",e,t),this.register(),this},remove:function(e,t){if(!arguments
+.length)throw{name:"NoArgumentException",message:"Remove cannot be called without arguments"};return this
+.removing=!0,r.each(s,function(n){r.each(n.to,function(i,s){typeof e=="string"?(t=e,i.eventName===t&&
+[].splice.call(n.to,s,1)):(r.isEqual(i.obj,e)||e==null)&&(i.eventName===t||typeof t=="undefined")&&(i
+.remove=!0)})}),this},register:function(){var e=arguments[0];if(e){if(!e.source)throw{name:"ConfigSourceNotDefined"
+,message:"Config object needs a source defined."};r.each(e.source,function(e){this.from(e.subscriber,
+e.event)},this);if(!e.target)throw{name:"ConfigTargetNotDefined",message:"Config object needs a target defined."
+};r.each(e.target,function(e){this.to(e.subscriber,e.event)},this)}else i.bind()},unregister:function(
+e){if(!e)throw{name:"NoArgumentException",message:"Unregister cannot be called without arguments"};if(
+e){this.removing=!0;if(!e.target)throw{name:"ConfigTargetNotDefined",message:"Config object needs a target defined."
 };r.each(e.target,function(e){this.remove(e.subscriber,e.event)},this);if(!e.source)throw{name:"ConfigSourceNotDefined"
 ,message:"Config object needs a source defined."};r.each(e.source,function(e){this.from(e.subscriber,
 e.eventName)},this)}}};return u}),t("main",["require","exports","module","utils","events","mediator"]
-,function(e,t,n){var r=e("utils"),i=e("events"),s=e("mediator");return r.mixin(s,i)});var s=i(main);typeof 
-module!="undefined"&&module.exports?module.exports=s:n?function(e){e(function(){return s})}(n):e[HereThereEveryWhereJS
-]=s})(this);
+,function(e,t,n){var r=e("utils"),i=e("events"),s=e("mediator");return r.mixin(s,i)});var s=i("main")
+;typeof module!="undefined"&&module.exports?module.exports=s:n?function(e){e(function(){return s})}(n
+):e[HereThereEveryWhereJS]=s})(this);
