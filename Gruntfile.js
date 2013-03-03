@@ -39,7 +39,20 @@ module.exports = function( grunt ) {
 			}
 		},
 
+		concat: {
+			options: {
+				stripBanners: true,
+				separator: ';'
+			},
+			dist: {
+				src: '<%= meta.src %>',
+				dest: '<%= pkg.name %>-concat.js'
+			}
+		},
+
 		requirejs: {
+			// Compile is the custom name of this operation 
+			// and NOT an r.js specific task name.
 			compile: {
 				options: {
 					uglify: {
@@ -76,6 +89,37 @@ module.exports = function( grunt ) {
 					},
 					out: '<%= pkg.name %>-min.js'
 				}
+			},
+			concat: {
+				options: {
+					optimize: "none",
+					baseUrl: "./src",
+					// ship with almond to remove need for requirejs
+					name: 'vendor/almond',
+					include: ['<%= pkg.main %>'],
+					wrap: {
+						start: "(function(global, define) {\n"+
+						// check for amd loader on global namespace
+						"  var globalDefine = global.define;\n",
+
+						// main 'require's all library dependencies
+						end:   "  var library = require(<%= pkg.main %>);\n"+
+						"  if(typeof module !== 'undefined' && module.exports) {\n"+
+						// export library for node
+						"    module.exports = library;\n"+
+						"  } else if(globalDefine) {\n"+
+						// define library for global amd loader that is already present
+						"    (function (define) {\n"+
+						"      define(function () { return library; });\n"+
+						"    }(globalDefine));\n"+
+						"  } else {\n"+
+						// define the library as the project name on the global namespace for inline script loading
+						"    global[ <%= pkg.name %> ] = library;\n"+
+						"  }\n"+
+						"}(this));\n"
+					},
+					out: '<%= pkg.name %>.js'
+				}
 			}
 		},
 
@@ -102,6 +146,7 @@ module.exports = function( grunt ) {
 	grunt.registerTask('lint', ['jshint']);
 	grunt.registerTask('test', ['jasmine']);
 	grunt.registerTask('build', ['requirejs']);
+	grunt.registerTask('concatenate', ['concat']);
 	grunt.registerTask('default', ['lint', 'test', 'build']);
 
 };
