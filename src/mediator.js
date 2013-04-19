@@ -1,314 +1,280 @@
-define( function ( require, exports, module ) {
+(function(factory) {
 
-	var utils = require('utils');
+  'use strict';
 
-	var	helpers = {
+  if (typeof define === 'function' && define.amd) {
+    define(['underscore', 'backbone'], factory);
+  } else {
+    factory(_, Backbone);
+  }
 
-			/**
-			* A little help to keep it DRY
-			* @param type {String} to|from
-			* @param obj {Object}
-			* @param eventName {String}
-			* @private
-			*/
-			add: function add ( type, obj, eventName ) {
+})(function (_, Backbone) {
 
-				passes[ currentEvent ][ type ].push({
-					obj: obj,
-					eventName: eventName
-				});
+    'use strict';
 
-			},
+    var currentEvent,
+        passes = {};
 
-			/**
-			* Bind one or more target events to one or more source events
-			* @private
-			*/
-			bind: function bind () {
+    function add( type, obj, eventName ) {
+        passes[ currentEvent ][ type ].push({
+            obj: obj,
+            eventName: eventName
+        });
+    }
 
-				utils.each( passes[ currentEvent ], function (sources, type, passes) {
+    function registerBindings() {
 
-					utils.each( passes, function ( sources, type, pass ) {
+        _.each( passes[ currentEvent ], function (sources, type, passes) {
 
-						utils.each( pass.from, function ( from ) {
+            _.each( passes, function ( sources, type, pass ) {
 
-							// Remove any previous binding
-							from.obj.off( from.eventName );
+                _.each( pass.from, function ( from ) {
 
-							// Bind the event to a callback
-							from.obj.on( from.eventName, function( args ) {
+                    // Remove any previous registerBindingsing
+                    from.obj.off( from.eventName );
 
-								utils.each( pass.to, function ( to ) {
+                    // Bind the event to a callback
+                    from.obj.on( from.eventName, function( args ) {
 
-									// The callback binds the |to| event
-									to.obj.trigger( to.eventName, args);
+                        _.each( pass.to, function ( to ) {
 
-								}, this);
+                            // The callback registerBindingss the |to| event
+                            to.obj.trigger( to.eventName, args);
 
-							}, this);
+                        }, this);
 
-						}, this);
+                    }, this);
 
-					}, this);
+                }, this);
 
-				}, this);
+            }, this);
 
-			}
+        }, this);
 
-		},
+    }
 
-		passes = {},
+    function register() {
 
-		currentEvent = null;
+        var config = arguments[0];
 
-	var mediator = {
+        if ( config ) {
 
-		/**
-		* Registers the source subject subscriber and its event(s)
-		* @param subscribee {Object}
-		* @param eventName {String}
-		* @return {this}
-		*/
+            if ( config.source ) {
 
-		from: function (subscribee, eventName) {
+                _.each(config.source, function ( from ) {
 
-			if (!arguments.length) {
-			
-				throw {
-					name: "NoArgumentsException",
-					message: "From cannot be called with no arguments"
-				};
+                    mediator.from( from.subscriber, from.event );
 
-			}
+                }, this);
 
-			currentEvent = eventName || 'all';
+            } else {
 
-			if ( !passes[ currentEvent ] ) {
-				passes[ currentEvent ] = {};
-			}
+                throw {
+                    name: "ConfigSourceNotDefined",
+                    message: "Config object needs a source defined."
+                };
 
-			if ( !passes[ currentEvent ].from ) {
-				passes[ currentEvent ].from = [];
-			}
+            }
 
-			helpers.add( "from", subscribee, eventName );
+            if ( config.target ) {
 
-			if ( this.removing ) {
+                _.each( config.target, function (to) {
 
-				// Has to object been marked for removal??
-				utils.each( passes, function ( pass, j ) {
+                    this.to( to.subscriber, to.event );
 
-					utils.each( pass.to, function ( to, i) {
+                }, this);
 
-						if (pass.to[i].remove && pass.to[i].remove === true) {
-							// Dedlete the target object and event,
-							// null the currentEvent
-							delete passes[j].to[i];
-							currentEvent = null;
+            } else {
 
-						}
+                throw {
+                    name: "ConfigTargetNotDefined",
+                    message: "Config object needs a target defined."
+                };
+            }
 
-					}, this);
+        } else {
+            registerBindings.call(this);
+        }
 
-				}, this);
+    };
 
-				this.removing = false;
-			}
-			// Make it chainable
-			return this;
+    function unregister( config ) {
 
-		},
+        if ( !config ) {
 
+            throw {
+                name: "NoArgumentException",
+                message: "Unregister cannot be called without arguments"
+            };
 
-		/**
-		* Adds a target subscriber by eventName to the mediator
-		* @param subscriber {Object}
-		* @param eventName {String}
-		* @return {this}
-		*/
-		to: function ( subscriber, eventName ) {
+        }
 
-			if ( !currentEvent ) {
-			
-				throw {
-					name: "ToFunctionBadUsage",
-					message: "Cannot call to before from."
-				};
+        if ( config ) {
 
-			}
+            this.removing = true;
 
-			if ( !passes[ currentEvent ].to ) {
-				passes[ currentEvent ].to = [];
-			}
+            if ( config.target ) {
 
-			helpers.add( "to", subscriber, eventName );
+                _.each( config.target, function ( to ) {
 
-			// No config object parameter
-			this.register();
+                    this.remove( to.subscriber, to.event );
 
-			// Make it chainable
-			return this;
-		},
+                }, this );
 
-		/**
-		* Marks target and eventName for removal
-		* @param target {Object}
-		* @param eventName {String}
-		* @return {this}
-		*/
-		remove: function (obj, eventName) {
+            } else {
 
-			if (!arguments.length) {
+                throw {
+                    name: "ConfigTargetNotDefined",
+                    message: "Config object needs a target defined."
+                };
 
-				throw {
-					name: "NoArgumentException",
-					message: "Remove cannot be called without arguments"
-				};
+            }
 
-			}
+            if ( config.source ) {
 
-			this.removing = true;
+                _.each(config.source, function (from) {
 
-			utils.each(passes, function ( pass ) {
+                    mediator.from(from.subscriber, from.eventName);
 
-				utils.each( pass.to, function ( to, i ) {
+                }, this );
 
-					if (typeof obj == "string") {
+            } else {
 
-						eventName = obj;
+                throw {
+                    name: "ConfigSourceNotDefined",
+                    message: "Config object needs a source defined."
+                };
 
-						if ( to.eventName === eventName ) {
+            }
 
-							[].splice.call(pass.to, i, 1);
+        }
 
-						}
+    }
 
-					} else {
+    var mediator = {
 
-						if ( ( utils.isEqual(to.obj, obj) || obj == null ) && ( to.eventName === eventName || typeof eventName == "undefined" ) ) {
+        from: function (subscribee, eventName) {
 
-							to.remove = true;
+            if (!arguments.length) {
 
-						} 
+                throw {
+                    name: "NoArgumentsException",
+                    message: "From cannot be called with no arguments"
+                };
 
-					}
+            }
 
-				});
+            currentEvent = eventName || 'all';
 
-			});
+            if ( !passes[ currentEvent ] ) {
+                passes[ currentEvent ] = {};
+            }
 
-			return this;
+            if ( !passes[ currentEvent ].from ) {
+                passes[ currentEvent ].from = [];
+            }
 
-		},
+            add.call( this, "from", subscribee, eventName );
 
-		/**
-		* Registers the source and target subscriber objects and their events for binding
-		* @param optional config Object
-		*/
-		register: function () {
+            if ( this.removing ) {
 
-			var config = arguments[0];
+                // Has to object been marked for removal??
+                _.each( passes, function ( pass, j ) {
 
-			if ( config ) {
+                    _.each( pass.to, function ( to, i) {
 
-				if ( config.source ) {
+                        if (pass.to[i].remove && pass.to[i].remove === true) {
+                            // Delete the target object and event,
+                            // null the currentEvent
+                            delete passes[j].to[i];
+                            currentEvent = null;
 
-					utils.each(config.source, function ( from ) {
+                        }
 
-						this.from( from.subscriber, from.event );
+                    }, this);
 
-					}, this);
+                }, this);
 
-				} else {
+                this.removing = false;
+            }
+            // Make it chainable
+            return this;
 
-					throw {
-						name: "ConfigSourceNotDefined",
-						message: "Config object needs a source defined."
-					};
+        },
 
-				}
+        to: function ( subscriber, eventName ) {
 
-				if ( config.target ) {
+            if ( !currentEvent ) {
 
-					utils.each( config.target, function (to) {
+                throw {
+                    name: "ToFunctionBadUsage",
+                    message: "Cannot call to before from."
+                };
 
-						this.to( to.subscriber, to.event );
+            }
 
-					}, this);
+            if ( !passes[ currentEvent ].to ) {
+                passes[ currentEvent ].to = [];
+            }
 
-				} else {
+            add.call( this, "to", subscriber, eventName );
 
-					throw {
-						name: "ConfigTargetNotDefined",
-						message: "Config object needs a target defined."
-					};
-				}
+            // No config object parameter
+            register.call(this);
 
-			} else { 
-				helpers.bind(); 
-			}
+            // Make it chainable
+            return this;
+        },
 
-		},
+        remove: function (obj, eventName) {
 
-		/**
-		* Notifies mediator that target and source subscriber and events should be removed.
-		* @param config {Object}
-		*/
-		unregister: function ( config ) {
+            if (!arguments.length) {
 
-			if ( !config ) {
+                throw {
+                    name: "NoArgumentException",
+                    message: "Remove cannot be called without arguments"
+                };
 
-				throw {
-					name: "NoArgumentException",
-					message: "Unregister cannot be called without arguments"
-				};
+            }
 
-			}
+            this.removing = true;
 
-			if ( config ) {
+            _.each(passes, function ( pass ) {
 
-				this.removing = true;
+                _.each( pass.to, function ( to, i ) {
 
-				if ( config.target ) {
+                    if (typeof obj == "string") {
 
-					utils.each( config.target, function ( to ) {
+                        eventName = obj;
 
-						this.remove( to.subscriber, to.event );
+                        if ( to.eventName === eventName ) {
 
-					}, this );
+                            [].splice.call(pass.to, i, 1);
 
-				} else {
-					
-					throw {
-						name: "ConfigTargetNotDefined",
-						message: "Config object needs a target defined."
-					};
+                        }
 
-				}
+                    } else {
 
-				if ( config.source ) {
+                        if ( ( _.isEqual(to.obj, obj) || obj == null ) && ( to.eventName === eventName || typeof eventName == "undefined" ) ) {
 
-					utils.each(config.source, function (from) {
+                            to.remove = true;
 
-						this.from(from.subscriber, from.eventName);
+                        }
 
-					}, this );
+                    }
 
-				} else {
+                });
 
-					throw {
-						name: "ConfigSourceNotDefined",
-						message: "Config object needs a source defined."
-					};
+            });
 
-				}
+            return this;
 
-			}
+        }
 
-		}
+    };
 
-	};
+    _.extend((Backbone.Mediator = {}), mediator);
 
-	return mediator;
+    return Backbone;
 
 });

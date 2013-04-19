@@ -1,25 +1,25 @@
-require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
+require(['underscore', 'backbone'], function ( _, Backbone ) {
 
   describe("Mediator", function () {
 
-    describe("Given the events are registered in a functional, API style", function () {
+    describe("Given the Backbone.Events are registered in a functional, API style", function () {
 
-      var data = { 
-        page: 1, 
-        totalResults: 1000 
+      var data = {
+        page: 1,
+        totalResults: 1000
       };
 
-      describe("Given a 'event:target' is registered on a target object to 'event:source' on a source object", function () {  
+      describe("Given a 'event:target' is registered on a target object to 'event:source' on a source object", function () {
 
         var source, target;
 
         beforeEach(function () {
 
-          source = utils.mixin({ name: 'source' }, events);
-          target = utils.mixin({ name: 'target' }, events);          
+          source = _.extend({ name: 'source' }, Backbone.Events);
+          target = _.extend({ name: 'target' }, Backbone.Events);
 
           // The registration 'API-style'
-          mediator.from( source , "event:source" ).to( target, "event:target" );
+          Backbone.Mediator.from( source , "event:source" ).to( target, "event:target" );
 
         });
 
@@ -50,12 +50,12 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
         beforeEach(function () {
 
-          source = utils.mixin({ name: 'source' }, events);
-          target1 = utils.mixin({ name: 'trget1' }, events);
-          target2 = utils.mixin({ name: 'target2' }, events);
+          source = _.extend({ name: 'source' }, Backbone.Events);
+          target1 = _.extend({ name: 'trget1' }, Backbone.Events);
+          target2 = _.extend({ name: 'target2' }, Backbone.Events);
 
           // The registration 'API-style'
-          mediator.from( source , "event:source" )
+          Backbone.Mediator.from( source , "event:source" )
             .to( target1, "event:target" )
             .to( target2, "event:target" );
 
@@ -100,12 +100,12 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
         beforeEach(function () {
 
-          source = utils.mixin({ name: 'source' }, events);
-          target1 = utils.mixin({ name: 'target1' }, events);
-          target2 = utils.mixin({ name: 'target2' }, events);
+          source = _.extend({ name: 'source' }, Backbone.Events);
+          target1 = _.extend({ name: 'target1' }, Backbone.Events);
+          target2 = _.extend({ name: 'target2' }, Backbone.Events);
 
           // The registration 'API-style'
-          mediator.from( source , "event:source" )
+          Backbone.Mediator.from( source , "event:source" )
             .to( target1, "event:target" )
             .to( target2, "event:target" );
         });
@@ -114,7 +114,7 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
           beforeEach(function () {
 
-            mediator.remove( target1, "event:target" ).from( source , "event:source" );
+            Backbone.Mediator.remove( target1, "event:target" ).from( source , "event:source" );
 
           });
 
@@ -154,22 +154,22 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
         var source, target1, target2;
 
         beforeEach(function () {
-          
-          source = utils.mixin({ name: 'source' }, events);
-          target1 = utils.mixin({ name: 'target1' }, events);
+
+          source = _.extend({ name: 'source' }, Backbone.Events);
+          target1 = _.extend({ name: 'target1' }, Backbone.Events);
 
           // The registration 'API-style'
-          mediator.from( source , "event:source" )
+          Backbone.Mediator.from( source , "event:source" )
             .to( target1, "event:target" )
             .to( target1, "event:other" );
-        
+
         });
 
         describe("When target1' is removed from 'event:source' on the source object", function () {
 
           beforeEach(function () {
 
-            mediator.remove( target1 ).from( source , "event:source" );
+            Backbone.Mediator.remove( target1 ).from( source , "event:source" );
 
           });
 
@@ -204,11 +204,11 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
         var source, target1, target2;
 
         beforeEach(function () {
-          source = utils.mixin({ name: 'source' }, events);
-          target1 = utils.mixin({ name: 'target1' }, events);
+          source = _.extend({ name: 'source' }, Backbone.Events);
+          target1 = _.extend({ name: 'target1' }, Backbone.Events);
 
           // The registration 'API-style'
-          mediator.from( source , "event:source" )
+          Backbone.Mediator.from( source , "event:source" )
             .to( target1, "event:target" )
             .to( target1, "event:other" );
 
@@ -218,13 +218,13 @@ require( ['mediator', 'events', 'utils'], function ( mediator, events, utils ) {
 
           beforeEach(function () {
 
-            mediator.remove( "event:other" );
+            Backbone.Mediator.remove( "event:other" );
 
           });
 
           describe("When 'event:source' is triggerd on the source object", function () {
 
-            var spyTarget1trigger; 
+            var spyTarget1trigger;
 
             beforeEach(function () {
 

@@ -1,3 +1,5 @@
 node_modules
 *.sublime-project
 .DS_Store
+.jshintrc
+_SpecRunner.html
