@@ -3,9 +3,11 @@
   'use strict';
 
   if (typeof define === 'function' && define.amd) {
-    define(['underscore', 'backbone'], factory);
+      define(['underscore', 'backbone'], factory);
   } else {
-    factory(_, Backbone);
+      if (_ && Backbone) {
+          factory(_, Backbone);
+      }
   }
 
 })(function (_, Backbone) {
@@ -96,7 +98,7 @@
             registerBindings.call(this);
         }
 
-    };
+    }
 
     function unregister( config ) {
 

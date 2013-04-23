@@ -1,5 +1,7 @@
 require(['underscore', 'backbone'], function ( _, Backbone ) {
 
+  'use strict';
+
   describe("Mediator", function () {
 
     describe("Given the Backbone.Events are registered in a functional, API style", function () {

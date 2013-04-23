@@ -10,7 +10,10 @@
     "spyOn": true,
     "runs": true,
     "waitsFor": true,
-    "document": true
+    "document": true,
+    "Backbone": true,
+    "_": true,
+    "require": true
   },
   "curly": false,
   "eqeqeq": false,
@@ -23,6 +26,7 @@
   "boss": true,
   "eqnull": true,
   "node": true,
-  "strict": false,
-  "es5": false
+  "validthis": true,
+  "strict": true,
+  "es5": true
 }
